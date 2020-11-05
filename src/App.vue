@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div>
+    <router-view></router-view>
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import SlideBar from '@/components/slideBar.vue'
+export default {
+  components: {
+    SlideBar
+  },
+  data() {
+    return {
+      collapsed: false
+    }
+  },
+  created() {},
+  methods: {
+    onCollapse(collapsed, type) {
+      console.log(collapsed, type)
+    },
+    onBreakpoint(broken) {
+      console.log(broken)
     }
   }
+}
+</script>
+<style lang="scss">
+html {
+  font-size: 10px !important;
+}
+
+// 滚动条样式
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>
