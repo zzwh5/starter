@@ -12,9 +12,11 @@ export const login = p => post(api.login, p)
 export const refrechToken = p => put(api.refrechToken)
 
 /* ==================== CRUD ==================== */
-export const crudMetadata = (uri, params) => get(`${uri}/crud/metadata`, params)
-export const crudSearch = (uri, params) => post(`${uri}/crud/_search`, params)
-export const crudDetail = (uri, params) => get(`${uri}/crud`, params)
-export const crudInsert = (uri, params) => post(`${uri}/crud`, params)
-export const crudUpdate = (uri, params) => patch(`${uri}/crud`, params)
-export const crudDelete = (uri, params) => deletefn(`${uri}/crud`, params)
+export const crud = {
+    Metadata: (uri, params) => get(`${uri}/crud/metadata`, params),
+    Search: (uri, params) => post(`${uri}/crud/_search`, params),
+    Detail: (uri, params) => get(`${uri}/crud`, params),
+    Insert: (uri, params) => post(`${uri}/crud`, params),
+    Update: (uri, params) => patch(`${uri}/crud`, params),
+    Delete: (uri, params) => deletefn(`${uri}/crud`, params)
+}
