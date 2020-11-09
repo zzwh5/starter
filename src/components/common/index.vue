@@ -80,7 +80,7 @@ export default {
     // 获取参数列表
     getColumns() {
       var that = this
-      getColumns().then(res => {
+      getColumns('/rest/1.0/admin/role').then(res => {
         // console.log(res)
         if (res.code != 200) {
           return
@@ -105,7 +105,6 @@ export default {
               dataIndex: v.field,
               ellipsis: true,
               key: v.field,
-              ellipsis: true,
               width: 150,
               scopedSlots: { customRender: v.field },
               ...v
@@ -146,7 +145,7 @@ export default {
     // 获取表格数据列表
     getTable() {
       var that = this
-      getTable().then(res => {
+      getTable('/rest/1.0/admin/role').then(res => {
         // console.log(res)
         res.data.forEach((v, i) => {
           that.table.push({
