@@ -25,12 +25,7 @@
 // 查看表格数据详情的接口
 // 引入接口
 import {
-  getColumns,
-  getTable,
-  addTable,
-  editTable,
-  delTable,
-  detailTable
+  crud
 } from '@/request/api'
 // 公共表格组件
 import Table from './table'
