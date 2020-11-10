@@ -25,6 +25,8 @@ module.exports = {
         }
       }
     ], // 每行最大属性
+    // vue中子组件接受父组件的参数的时候 如果不是Boolean类型都要 有require字段
+    'vue/require-default-prop': 2,
     'vue/singleline-html-element-content-newline': 'off', // 单行html元素内容在新的一行
     'vue/multiline-html-element-content-newline': 'off', // 多行html元素内容在新的一行
     'vue/html-closing-bracket-newline': 0, // 关闭  html右括号在新的一行
@@ -59,7 +61,7 @@ module.exports = {
         allowSingleLine: true
       }
     ], // 大括号样式允许单行
-    'camelcase': [
+    camelcase: [
       0,
       {
         properties: 'always'
@@ -75,11 +77,11 @@ module.exports = {
     ],
     'comma-style': [2, 'last'],
     'constructor-super': 2,
-    'curly': [2, 'multi-line'],
+    curly: [2, 'multi-line'],
     'dot-location': [2, 'property'],
     'eol-last': 0, // 末尾 enter
     // eqeqeq: ['error', 'always', { null: 'ignore' }],
-    'eqeqeq': ['off'], //关闭 === 和 !== 允许 == 和!=
+    eqeqeq: ['off'], //关闭 === 和 !== 允许 == 和!=
     'generator-star-spacing': [
       2,
       {
@@ -89,7 +91,7 @@ module.exports = {
     ],
     'handle-callback-err': [2, '^(err|error)$'],
     // 解决缩进的问题
-    'indent': [
+    indent: [
       0,
       {
         SwitchCase: 1
@@ -128,6 +130,7 @@ module.exports = {
     'no-delete-var': 2,
     'no-dupe-args': 2,
     'no-dupe-class-members': 2,
+    // vue中防止重复的 key 导致程序意外
     'no-dupe-keys': 2,
     'no-duplicate-case': 2,
     'no-empty-character-class': 2,
@@ -230,7 +233,7 @@ module.exports = {
     ],
     'padded-blocks': [2, 'never'],
     // 字符串单引号 而不是双引号
-    'quotes': [
+    quotes: [
       0,
       'single',
       {
@@ -238,7 +241,7 @@ module.exports = {
         allowTemplateLiterals: true
       }
     ],
-    'semi': [0, 'never'], //末尾分号
+    semi: [0, 'never'], //末尾分号
     'semi-spacing': [
       2,
       {
@@ -277,7 +280,7 @@ module.exports = {
     'valid-typeof': 2,
     'wrap-iife': [2, 'any'],
     'yield-star-spacing': [2, 'both'],
-    'yoda': [2, 'never'],
+    yoda: [2, 'never'],
     'prefer-const': 2,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'object-curly-spacing': [

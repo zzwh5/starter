@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="test1">
-    <Common />
+    <Common :api="api" />
   </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       //  当前页面的接口
+      api: '/rest/1.0/admin/role'
     }
   },
   created() {},
@@ -24,6 +25,4 @@ export default {
 </script>
 
 <style  scoped lang='scss'>
-.test1 {
-}
 </style>

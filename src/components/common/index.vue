@@ -24,9 +24,7 @@
 <script>
 // 查看表格数据详情的接口
 // 引入接口
-import {
-  crud
-} from '@/request/api'
+import { crud } from '@/request/api'
 // 公共表格组件
 import Table from './table'
 // 公共弹框组件
@@ -43,14 +41,27 @@ export default {
     SearchHeader,
     EditHeader
   },
+  props: {
+    // 接收父级的api接口
+    api: {
+      type: String,
+      default: '',
+      require: true
+    }
+  },
   data() {
     return {
       // 当前页面的主键
       primary: '',
       // 表格参数列表参数列表
       columns: [],
-      // 表单参数列表
-      formColumns: [],
+      // 表单参数列表四种类型
+      formColumns: {
+        Search: [],
+        add: [],
+        edit: [],
+        detail: []
+      },
       // 表格数据
       table: [],
       // 搜索的form对象
@@ -74,51 +85,46 @@ export default {
   methods: {
     // 获取参数列表
     getColumns() {
-      var that = this
-      getColumns('/rest/1.0/admin/role').then(res => {
-        // console.log(res)
+      crud.Metadata(this.api).then(res => {
+        console.log(res)
         if (res.code != 200) {
           return
         }
         // 如果data里面有 forms说明 表单的字段要用forms的  如果没有统一使用 grid的 字段
-        if (res.data.forms) {
-          this.formColumns = this.formatting(res.data.forms.columns)
-        } else {
+        if (res.data.forms.length > 0) {
+          // console.log(res.data.forms)
+          this.formColumns = this.formattingByType(res.data.forms, 'search')
         }
-        // 相对应的grid的 是表格的columns 不会发生变化
-        // console.log(res.data.grid.columns)
-        var arr = JSON.parse(JSON.stringify(res.data.grid.columns))
-        // console.log(arr)
-        arr.forEach(v => {
-          // console.log(v.hidden)
-          if (v.primary) {
-            that.primary = v.field
-          }
-          if (!v.hidden) {
-            that.columns.push({
-              title: v.name,
-              dataIndex: v.field,
-              ellipsis: true,
-              key: v.field,
-              width: 150,
-              scopedSlots: { customRender: v.field },
-              ...v
-            })
-          }
+        this.columns = this.formatting(res.data.grid.columns, true)
+      })
+    },
+    formattingByType(arr, type) {
+      // 根据对应的类型拿到forms几种forms中的某个类型的表单 并且处理好当前这个数据 然后return
+      arr = JSON.parse(JSON.stringify(arr))
+      var nowArr = arr.filter(v => (v.type = type))
+      var columns = nowArr[0].columns
+      var arrs = []
+      columns.forEach(v => {
+        arrs.push({
+          ...v
         })
       })
     },
     // 拿到后台的数据进行格式化
     formatting(arr, turn) {
-      var arrs = JSON.parse(JSON.stringify(arr))
+      var that = this
+      arr = JSON.parse(JSON.stringify(arr))
+      var arrs = []
       arr.forEach(v => {
+        if (v.primary) {
+          that.primary = v.field
+        }
         if (!v.hidden) {
           arrs.push({
             title: v.name,
             dataIndex: v.field,
             ellipsis: true,
             key: v.field,
-            ellipsis: true,
             width: 150,
             scopedSlots: { customRender: v.field },
             ...v
@@ -140,8 +146,7 @@ export default {
     // 获取表格数据列表
     getTable() {
       var that = this
-      getTable('/rest/1.0/admin/role').then(res => {
-        // console.log(res)
+      crud.Search(this.api).then(res => {
         res.data.forEach((v, i) => {
           that.table.push({
             key: v[that.primary],
@@ -150,10 +155,7 @@ export default {
         })
       })
     },
-    // 增
-    addTable(obj) {},
-    // 改
-    editTable(obj) {},
+
     // 删
     delTable() {},
 

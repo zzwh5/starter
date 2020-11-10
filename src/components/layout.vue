@@ -2,23 +2,25 @@
   <a-layout id="components-layout-demo-responsive" style="height:100vh">
     <a-layout-sider
       v-model="collapsed"
-      width="30vh"
+      width="15vw"
       breakpoint="lg"
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
     >
-      <div class="logo" />
+      <div class="logo"></div>
       <SlideBar :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
-      <a-layout-header :style="{
-        background: '#fff',
-        padding: '0',
-        position: 'fixed',
-        zIndex: 1, 
-        width: '100%'
-      }">
+      <a-layout-header
+        :style="{
+          background: '#fff',
+          padding: '0',
+          position: 'fixed',
+          zIndex: 1,
+          width: '100%'
+        }"
+      >
         <a-icon
           class="trigger"
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
@@ -28,7 +30,7 @@
       <a-layout-content
         :style="{
           margin: '24px 16px',
-          marginTop:'84px',
+          marginTop: '84px',
           padding: '24px',
           background: '#fff',
           minHeight: '280px'

@@ -38,13 +38,12 @@
       <a-row :gutter="48">
         <template v-for="item in columns">
           <a-col
+            v-if="!item.primary && item.title != 'Action'"
             :key="item.dataIndex"
             :span="12"
-            v-if="!item.primary && item.title != 'Action'"
           >
             <a-form-item :label="`${item.title}`">
               <a-input
-                :readOnly="true"
                 v-decorator="[
                   `${item.dataIndex}`,
                   {
@@ -56,6 +55,7 @@
                     ]
                   }
                 ]"
+                :readOnly="true"
                 placeholder="请输入"
               />
             </a-form-item>
@@ -69,8 +69,16 @@
 <script>
 export default {
   props: {
-    visible: [Boolean, false],
-    columns: [Array, []]
+    visible: {
+      type: Boolean
+    },
+    columns: {
+      type: Array,
+      default() {
+        return []
+      },
+      require: true
+    }
   },
   data() {
     return {
@@ -84,13 +92,16 @@ export default {
     // 弹框的取消和确定
     handleOk(e) {
       e.preventDefault()
-      var that = this
+      // var that = this
       this.loading = true
       this.handleSbumit()
     },
     // 弹框表格的提交 和取消弹框
     handleSbumit() {
       this.submitForm.validateFields((error, values) => {
+        if (error) {
+          console.log(error)
+        }
         // console.log('Received values of form: ', values)
         console.log(this.$parent.handleSbumit)
         this.$parent.handleSbumit(values)

@@ -10,8 +10,8 @@
     >
       <template v-for="item in Routes">
         <a-menu-item
-          :key="item.name"
           v-if="!item.children || !item.meta.hasChildren"
+          :key="item.name"
           @click="goRoute(item.path)"
         >
           <template v-if="!item.children || !item.meta.hasChildren">
@@ -24,8 +24,8 @@
       </template>
       <template v-for="item in Routes">
         <a-sub-menu
-          :key="item.name"
           v-if="item.children && item.meta.hasChildren"
+          :key="item.name"
         >
           <span slot="title">
             <a-icon type="mail" />
@@ -49,7 +49,9 @@
 <script>
 export default {
   props: {
-    collapsed: [Boolean, false]
+    collapsed: {
+      type: Boolean
+    }
   },
   data() {
     return {
