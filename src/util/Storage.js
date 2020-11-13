@@ -2,7 +2,7 @@ export const TYPE = {
   LOCAL: 'LOCAL',
   SESSION: 'SESSION'
 }
-let instant = localStorage
+let instant = sessionStorage
 
 export function get(key) {
   return instant.getItem(key)
@@ -26,7 +26,7 @@ export function setType(type) {
 }
 
 export function initStorageType() {
-  this.initInstant(localStorage.get('storage'))
+  initInstant(localStorage.getItem('storage'))
 }
 
 function initInstant(type) {
@@ -38,6 +38,6 @@ function initInstant(type) {
       instant = sessionStorage
       break
     default:
-      instant = localStorage
+      instant = sessionStorage
   }
 }

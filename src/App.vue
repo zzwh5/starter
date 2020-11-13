@@ -1,20 +1,25 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 <script>
-import SlideBar from '@/components/slideBar.vue'
+// import SlideBar from '@/components/slideBar.vue'
+import { initStorageType } from './util/Storage.js'
 export default {
-  components: {
-    SlideBar
-  },
+  // components: {
+  //   SlideBar
+  // },
   data() {
     return {
       collapsed: false
     }
   },
-  created() {},
+  created() {
+    // 页面进入的时候 初始化token的存储位置
+    // console.log(initStorageType)
+    initStorageType()
+  },
   methods: {
     onCollapse(collapsed, type) {
       console.log(collapsed, type)

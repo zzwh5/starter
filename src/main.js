@@ -7,7 +7,7 @@ import store from './store'
 import './assets/style/reset.css'
 
 // antd的组件库
-import './until/import'
+import './util/import'
 
 // 路由进度条
 // 导入

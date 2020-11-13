@@ -1,4 +1,4 @@
-import storage from './Storage'
+import { get, set } from './Storage.js'
 
 export function setBothToken(data) {
   setToken(data.token)
@@ -6,17 +6,17 @@ export function setBothToken(data) {
 }
 
 export function getToken() {
-  return storage.get('token')
+  return get('token')
 }
 
 export function setToken(token) {
-  storage.set('token', token)
+  set('token', token)
 }
 
 export function getRefreshToken() {
-  return storage.get('refreshToken')
+  return get('refreshToken')
 }
 
 export function setRefreshToken(token) {
-  storage.set('refreshToken', token)
+  set('refreshToken', token)
 }
