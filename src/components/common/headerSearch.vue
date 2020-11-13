@@ -9,12 +9,11 @@
     <a-row :gutter="48">
       <template v-for="(item, i) in columns">
         <a-col
-          v-if="item.enableSearch"
           :key="item.field"
           :span="8"
           :style="{ display: i < count ? 'block' : 'none' }"
         >
-          <a-form-item :label="item.title">
+          <a-form-item :label="item.name">
             <a-input
               v-decorator="[
                 `${item.field}`,
@@ -54,11 +53,23 @@
 export default {
   props: {
     // 是否展开更多的顶部搜索框
-    expand: [Boolean, false],
+    expand: {
+      type: Boolean
+    },
     // 字段数据
-    columns: [Array, []],
-    // count
-    count: [Number, 0]
+    columns: {
+      type: Array,
+      default() {
+        return []
+      },
+      required: true
+    },
+    // 顶部搜索展示的字段的个数
+    count: {
+      type: Number,
+      default: null,
+      required: true
+    }
   },
   data() {
     return {
@@ -74,9 +85,26 @@ export default {
     handleSearch(e) {
       e.preventDefault()
       this.form.validateFields((error, values) => {
-        // console.log('error', error)
-        // console.log('Received values of form: ', values)
-        this.$parent.handleSearch(values)
+        if (error) {
+          console.log(error)
+        }
+        var obj = JSON.parse(JSON.stringify(values))
+        var arr = []
+        if (JSON.stringify(obj) == '{}') {
+          arr = []
+        } else {
+          for (const key in obj) {
+            var condition = this.columns.filter(v => v.field == key)[0]
+              .searchCondition
+            arr.push({
+              condition,
+              field: key,
+              value: obj[key]
+            })
+          }
+        }
+        // 子级调用父级的搜索方法筛选表格数据
+        this.$parent.handleSearch(arr)
       })
     },
     // 清空搜索内容

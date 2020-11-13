@@ -91,12 +91,7 @@ module.exports = {
     ],
     'handle-callback-err': [2, '^(err|error)$'],
     // 解决缩进的问题
-    indent: [
-      0,
-      {
-        SwitchCase: 1
-      }
-    ],
+    indent: 'off',
     'jsx-quotes': [2, 'prefer-single'],
     'key-spacing': [
       2,

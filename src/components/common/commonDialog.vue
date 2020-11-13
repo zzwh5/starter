@@ -2,7 +2,15 @@
 <template>
   <a-modal
     v-model="visible"
-    title="Title"
+    :title="
+      types == 'detail'
+        ? '查看'
+        : types == 'insert'
+        ? '新增'
+        : types == 'update'
+        ? '编辑'
+        : ''
+    "
     on-ok="handleOk"
     dialogClass="modal"
     width="45%"
@@ -17,6 +25,7 @@
         取消
       </a-button>
       <a-button
+        v-if="types != 'detail'"
         key="submit"
         type="primary"
         :loading="loading"
@@ -37,25 +46,22 @@
     >
       <a-row :gutter="48">
         <template v-for="item in columns">
-          <a-col
-            v-if="!item.primary && item.title != 'Action'"
-            :key="item.dataIndex"
-            :span="12"
-          >
-            <a-form-item :label="`${item.title}`">
+          <a-col v-if="!item.primary" :key="item.field" :span="12">
+            <a-form-item :label="`${item.name}`">
               <a-input
                 v-decorator="[
-                  `${item.dataIndex}`,
+                  `${item.field}`,
                   {
                     rules: [
                       {
-                        required: true,
-                        message: 'Input something!'
+                        pattern: item.verifyReg,
+                        required: item.required,
+                        message: `请输入${item.name}`
                       }
                     ]
                   }
                 ]"
-                :readOnly="true"
+                :readOnly="item.readOnly"
                 placeholder="请输入"
               />
             </a-form-item>
@@ -69,13 +75,23 @@
 <script>
 export default {
   props: {
+    // 弹框的显示与否
     visible: {
       type: Boolean
     },
+    // 表单的字段列表
     columns: {
       type: Array,
       default() {
         return []
+      },
+      require: true
+    },
+    // 当前表格的类型
+    types: {
+      type: String,
+      default() {
+        return 'insert'
       },
       require: true
     }
@@ -88,7 +104,29 @@ export default {
       submitForm: this.$form.createForm(this, { name: 'advanced_dialog' })
     }
   },
+  created() {
+    // console.log(this.columns)
+  },
   methods: {
+    // v-decorator绑定数据 必须是字段已经绑定
+    setValue(obj) {
+      var that = this
+      if (this.types == 'update') {
+        this.id = obj.id
+      }
+      // obj是父级传过来的值
+      // this.columns用来判断用不用渲染 比如 primary:true可能就不用渲染
+      // console.log(obj)
+      // console.log(this.columns)
+      this.columns.forEach(v => {
+        if (!v.primary) {
+          console.log({ [v.field]: obj[v.field] })
+          that.submitForm.setFieldsValue({
+            [v.field]: obj[v.field]
+          })
+        }
+      })
+    },
     // 弹框的取消和确定
     handleOk(e) {
       e.preventDefault()
@@ -103,8 +141,16 @@ export default {
           console.log(error)
         }
         // console.log('Received values of form: ', values)
-        console.log(this.$parent.handleSbumit)
-        this.$parent.handleSbumit(values)
+        // console.log(this.types)
+        if (this.types == 'insert') {
+          this.$parent.insertTable(values)
+        }
+        if (this.types == 'update') {
+          this.$parent.editTable({
+            ...values,
+            id: this.id
+          })
+        }
       })
     },
     // 弹框取消

@@ -1,31 +1,29 @@
-class Form {
-    _type;
-    _name;
-    _columns;
+export default class Form {
+  _type
+  _name
+  _columns
 
-    get type() {
-        return this._type;
-    }
+  get type() {
+    return this._type
+  }
 
-    set type(value) {
-        this._type = value;
-    }
+  set type(value) {
+    this._type = value
+  }
 
-    get name() {
-        return this._name;
-    }
+  get name() {
+    return this._name
+  }
 
-    set name(value) {
-        this._name = value;
-    }
+  set name(value) {
+    this._name = value
+  }
 
-    get columns() {
-        return this._columns;
-    }
+  get columns() {
+    return this._columns
+  }
 
-    set columns(value) {
-        this._columns = value;
-    }
+  set columns(value) {
+    this._columns = value
+  }
 }
-
-

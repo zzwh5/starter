@@ -1,4 +1,4 @@
-import { get, post, put, deletefn, patch } from './http'
+import { get, post, put, deletefn, patch, postSearch } from './http'
 
 const api = {
   // 登录
@@ -14,7 +14,8 @@ export const refrechToken = p => put(api.refrechToken)
 /* ==================== CRUD ==================== */
 export const crud = {
   Metadata: (uri, params) => get(`${uri}/crud/metadata`, params),
-  Search: (uri, params) => post(`${uri}/crud/_search`, params),
+  Search: (uri, params, data, filter) =>
+    postSearch(`${uri}/crud/_search`, params, data, filter),
   Detail: (uri, params) => get(`${uri}/crud`, params),
   Insert: (uri, params) => post(`${uri}/crud`, params),
   Update: (uri, params) => patch(`${uri}/crud`, params),

@@ -1,7 +1,7 @@
 import FormColumn from './FormColumn'
 
 export default class SearchFormColumn extends FormColumn {
-  searchCondition = 'EQ'
+  readOnly = true
 
   get searchCondition() {
     return this.searchCondition

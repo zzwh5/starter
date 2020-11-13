@@ -49,3 +49,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  <!-- 2、 引入eslint和prettierrc校验 -->
  <!-- 3、 配置vue.config.js文件 -->
  <!-- 4、 侧边栏组件 src/components/slideBar -->
+ <!-- 5、 对于路由配置这里每个大的路由的component都是layout如果大的路由下面的子路由还有子路由就是在大陆有的子路由里面写上 <router-view></router-view> -->

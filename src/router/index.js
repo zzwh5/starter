@@ -36,17 +36,28 @@ const routes = [
       {
         path: '/test/test1',
         name: 'Test1',
+        // redirect: '/test/test1/t',
         component: () => import('../views/test/test1.vue'),
-        meta: { title: '测试1' }
+        // meta: { title: '测试1', hasChildren: true }
+        meta: { title: '测试1', hasChildren: false }
+        // ,
+        // children: [
+        //   {
+        //     path: '/test/test1/t',
+        //     name: 'tt',
+        //     component: () => import('../views/test/t.vue'),
+        //     meta: { title: '测试t', hasChildren: false }
+        //   }
+        // ]
       }
     ]
-  },
-  {
-    path: '/tests',
-    name: 'Tests',
-    component: () => import('../views/tests/tests.vue'),
-    meta: { title: '测试s' }
   }
+  // {
+  //   path: '/tests',
+  //   name: 'Tests',
+  //   component: () => import('../views/tests/tests.vue'),
+  //   meta: { title: '测试s' }
+  // }
 ]
 
 const router = new VueRouter({

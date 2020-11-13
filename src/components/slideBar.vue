@@ -9,45 +9,27 @@
       :inline-collapsed="collapsed"
     >
       <template v-for="item in Routes">
-        <a-menu-item
-          v-if="!item.children || !item.meta.hasChildren"
-          :key="item.name"
-          @click="goRoute(item.path)"
-        >
-          <template v-if="!item.children || !item.meta.hasChildren">
-            <a-icon type="pie-chart" />
-            <span>
-              {{ item.meta.title }}
-            </span>
-          </template>
-        </a-menu-item>
-      </template>
-      <template v-for="item in Routes">
-        <a-sub-menu
-          v-if="item.children && item.meta.hasChildren"
-          :key="item.name"
-        >
-          <span slot="title">
-            <a-icon type="mail" />
-            <span>
-              {{ item.meta.title }}
-            </span>
-          </span>
-          <a-menu-item
-            v-for="v in item.children"
-            :key="v.name"
-            @click="goRoute(v.path)"
-          >
-            {{ v.meta.title }}
+        <template v-if="item.meta.hasChildren">
+          <!--  vue组件自己调用自己  -->
+          <sub-Menu :key="item.name" :item="item" />
+        </template>
+        <template v-else>
+          <a-menu-item :key="item.name" @click="goRoute(item.path)">
+            {{ item.meta.title }}
           </a-menu-item>
-        </a-sub-menu>
+        </template>
       </template>
     </a-menu>
   </div>
 </template>
 
 <script>
+// 引入 submenu组件 \
+import SubMenu from './SubMenu'
 export default {
+  components: {
+    SubMenu
+  },
   props: {
     collapsed: {
       type: Boolean
@@ -64,13 +46,20 @@ export default {
     this.Routes = this.$router.options.routes.filter(
       v => v.meta.title != '登录'
     )
+    // console.log(this.Routes)
   },
   methods: {
     // 路由跳转
     goRoute(path) {
-      this.$router.push({
-        path: path
-      })
+      if (path == '/') {
+        path = '/home'
+      }
+      // console.log(path)
+      if (this.$route.path != path) {
+        this.$router.push({
+          path: path
+        })
+      }
     }
   }
 }

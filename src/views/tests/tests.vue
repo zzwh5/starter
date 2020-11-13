@@ -2,13 +2,13 @@
   <a-layout id="components-layout-demo-responsive" style="height:100vh">
     <a-layout-sider
       v-model="collapsed"
-      width="30vh"
+      width="15vw"
       breakpoint="lg"
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
     >
-      <div class="logo" />
+      <div class="logo"></div>
       <SlideBar :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
