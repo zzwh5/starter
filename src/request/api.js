@@ -2,14 +2,12 @@ import { get, post, put, deletefn, patch, postSearch } from './http'
 
 const api = {
   // 登录
-  login: '/rest/1.0/auth/signin',
-  // 刷新token
-  refrechToken: '/rest/1.0/auth'
+  login: '/rest/1.0/auth/token'
 }
 // 登录
 export const login = p => post(api.login, p)
-// 刷新token
-export const refrechToken = p => put(api.refrechToken)
+// 刷新token 接口一直 方法不同
+export const refrechToken = p => put(api.login)
 
 /* ==================== CRUD ==================== */
 export const crud = {

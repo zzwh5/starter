@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 // 引入对应的类
 import FormColumn from '@/pojo/metadata/form/FormColumn.js'
 import SearchFormColumn from '@/pojo/metadata/form/SearchFormColumn.js'
@@ -125,6 +127,19 @@ export default {
     }
   },
   created() {
+    axios({
+      method: 'get',
+      url: 'http://192.168.1.118:9020/admin/test',
+      headers: {
+        token: '1111'
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     this.getColumns()
     this.getTable()
   },

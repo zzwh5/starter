@@ -3,9 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-// 引入cookie的一些方法
-import { getCookie, setCookie } from './until/Cookie'
-
 // 重置库
 import './assets/style/reset.css'
 
@@ -13,10 +10,10 @@ import './assets/style/reset.css'
 import './until/import'
 
 // 路由进度条
-//导入
+// 导入
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-//配置滚动条
+// 配置滚动条
 NProgress.configure({ showSpinner: false, ease: 'ease', speed: 1500 })
 const whiteList = ['/login']
 // 在路由守卫里去监控路由变化，从而触发进度条
@@ -54,12 +51,6 @@ router.afterEach(() => {
 })
 
 Vue.config.productionTip = false
-
-// 将cookie注入到vue中
-Vue.prototype.$cookieStore = {
-  setCookie,
-  getCookie
-}
 
 new Vue({
   router,

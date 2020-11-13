@@ -9,9 +9,9 @@
               id="components-form-demo-normal-login"
               :form="form"
               class="login-form"
-              @submit="handleSubmit"
               :label-col="{ span: 3 }"
               :wrapper-col="{ span: 16 }"
+              @submit="handleSubmit"
             >
               <a-form-item label="用户名">
                 <a-input
@@ -22,22 +22,20 @@
                     }
                   ]"
                   placeholder="用户名"
-                >
-                </a-input>
+                />
               </a-form-item>
               <a-form-item label="密码">
                 <a-input-password
-                  autocomplete="off"
                   v-decorator="[
                     'password',
                     {
                       rules: [{ required: true, message: '请输入密码' }]
                     }
                   ]"
+                  autocomplete="off"
                   type="password"
                   placeholder="密码"
-                >
-                </a-input-password>
+                />
               </a-form-item>
               <!-- <a-form-item label="验证码">
                 <a-row :gutter="16" type="flex" justify="center" align="middle">
@@ -89,10 +87,10 @@
 
 <script>
 // md5加密
-import md5 from 'js-md5';
+import md5 from 'js-md5'
 // 登录接口
-import { login,refrechToken } from '@/request/api'
-import {delCookie,getCookie} from "@/until/Cookie"
+import { login } from '@/request/api'
+import { setBothToken } from '@/util/TokenStorage'
 export default {
   data() {
     return {
@@ -104,7 +102,7 @@ export default {
       code: 345
     }
   },
-  created(){},
+  created() {},
   methods: {
     // tab切换的时候
     callback(key) {
@@ -123,7 +121,6 @@ export default {
     },
     // 表单提交的时候
     handleSubmit(e) {
-      var that = this
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -131,17 +128,18 @@ export default {
           var obj = values
           obj.password = md5(obj.password)
           // console.log(obj)
-          login(obj).then(res=>{
-            // console.log(res)
-            // cookie中添加token并设置过期时间
-            this.$cookieStore.setCookie( 'token' , res.data.token,120000)
-            this.$cookieStore.setCookie( 'Rtoken' , res.data.refreshToken)
-            this.$router.push({
-              path: '/'
+          login(obj)
+            .then(res => {
+              // console.log(res)
+              // cookie中添加token并设置过期时间
+              setBothToken(res.data)
+              this.$router.push({
+                path: '/'
+              })
             })
-          }).catch(error=>{
-            console.log(error)
-          })
+            .catch(error => {
+              console.log(error)
+            })
         }
       })
     }

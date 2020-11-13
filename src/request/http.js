@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-// 引入cookie的一些方法
-import { getCookie, setCookie } from '../until/Cookie'
+// 引入storage的一些方法
+import { setBothToken, getToken } from '@/util/TokenStorage'
 // 引入 antd的对话框
 import { message } from 'ant-design-vue'
 
@@ -17,26 +17,22 @@ const instance = axios.create({
 // axios实例的一个方法
 // 给实例添加一个setToken方法，用于登录后将最新token动态添加到header，
 // 同时将token保存在localStorage中
-instance.setToken = token => {
-  instance.defaults.headers['token'] = token
-  setCookie('token', token, 1 * 60 * 1000)
+instance.setToken = data => {
+  instance.defaults.headers['token'] = data.token
+  setBothToken(data)
 }
 
 // http request拦截器 添加一个请求拦截器
-instance.interceptors.request.use(
+axios.interceptors.request.use(
   function(config) {
-    console.log(config)
     // console.log(config)
-    // 在cookie中拿到 token
-    setCookie('token', '1111', 1 * 60 * 1000)
-    const token = getCookie('token')
-    console.log(token)
+    // 在storage中拿到 token
+    const token = getToken()
     if (token) {
       // 将token放到请求头发送给服务器,将tokenkey放在请求头中
       config.headers['token'] = token
     }
     if (config.url.indexOf('auth') != -1) {
-      // config.headers['token'] = getCookie('Rtoken')
       config.headers['token'] = token
     }
     return config
@@ -48,9 +44,9 @@ instance.interceptors.request.use(
 )
 
 // 是否正在刷新的标记
-let isRefreshing = false
+var isRefreshing = false
 // 重试队列，每一项将是一个待执行的函数形式
-let requests = []
+var requests = []
 
 // 刷新token的方法
 /* 
@@ -66,13 +62,13 @@ axios.interceptors.response.use(
       const config = response.config
       if (!isRefreshing) {
         isRefreshing = true
-        console.log(isRefreshing)
+        // console.log(isRefreshing)
         return refrechToken()
           .then(res => {
             console.log(res)
-            const { token } = res.data
-            instance.setToken(token)
-            config.headers['X-Token'] = token
+            // const { token } = res.data
+            instance.setToken(res.data)
+            config.headers['token'] = token
             config.baseURL = ''
             // 已经刷新了token，将所有队列中的请求进行重试
             requests.forEach(cb => cb(token))
@@ -82,7 +78,7 @@ axios.interceptors.response.use(
           })
           .catch(res => {
             console.error('refrechToken error =>', res)
-            window.location.href = '/'
+            // window.location.href = '/user'
           })
           .finally(() => {
             isRefreshing = false
@@ -93,7 +89,7 @@ axios.interceptors.response.use(
           // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
           requests.push(token => {
             config.baseURL = ''
-            config.headers['X-Token'] = token
+            config.headers['X-Tooken'] = token
             resolve(instance(config))
           })
         })
