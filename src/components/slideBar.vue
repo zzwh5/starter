@@ -11,7 +11,7 @@
       <template v-for="item in Routes">
         <template v-if="item.meta.hasChildren">
           <!--  vue组件自己调用自己  -->
-          <sub-Menu :key="item.name" :item="item" />
+          <sub-Menu :key="item.name" :menuInfo="item" :goRoute="goRoute" />
         </template>
         <template v-else>
           <a-menu-item :key="item.name" @click="goRoute(item.path)">
@@ -25,26 +25,62 @@
 
 <script>
 // 引入 submenu组件 \
-import SubMenu from './SubMenu'
+// import SubMenu from './SubMenu'
+// 引入 Menu组件
+import { Menu } from 'ant-design-vue'
+const SubMenu = {
+  template: `
+      <a-sub-menu :key="menuInfo.name" v-bind="$props" v-on="$listeners">
+        <span slot="title">
+          {{ menuInfo.meta.title }}
+        </span>
+       <template v-for="v in menuInfo.children">
+          <template v-if="v.meta.hasChildren">
+            <!--  vue组件自己调用自己  -->
+            <sub-Menu :key="v.name" :item="v" />
+          </template>
+          <template v-else>
+            <a-menu-item :key="v.name" @click="goRoute(v.path)">
+              {{ v.meta.title }}
+            </a-menu-item>
+          </template>
+        </template>
+      </a-sub-menu>
+    `,
+  name: 'SubMenu',
+  // must add isSubMenu: true
+  isSubMenu: true,
+  props: {
+    ...Menu.SubMenu.props,
+    // Cannot overlap with properties within Menu.SubMenu.props
+    menuInfo: {
+      type: Object,
+      default: () => ({}),
+    },
+    goRoute: {
+      type: Function,
+    },
+  },
+}
 export default {
   components: {
-    SubMenu
+    SubMenu,
   },
   props: {
     collapsed: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
       // 路由数组
-      Routes: []
+      Routes: [],
     }
   },
   created() {
     // console.log(this.$router.options.routes)
     this.Routes = this.$router.options.routes.filter(
-      v => v.meta.title != '登录'
+      (v) => v.meta.title != '登录'
     )
     // console.log(this.Routes)
   },
@@ -57,11 +93,11 @@ export default {
       // console.log(path)
       if (this.$route.path != path) {
         this.$router.push({
-          path: path
+          path: path,
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

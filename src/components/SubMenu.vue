@@ -24,8 +24,8 @@ export default {
       default() {
         return {}
       },
-      require: true
-    }
+      require: true,
+    },
   },
   data() {
     return {}
@@ -34,11 +34,11 @@ export default {
     goRoute(path) {
       if (this.$route.path != path) {
         this.$router.push({
-          path: path
+          path: path,
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
