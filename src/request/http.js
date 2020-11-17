@@ -24,7 +24,7 @@ instance.setToken = data => {
 
 // http request拦截器 添加一个请求拦截器
 axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     // console.log(config)
     // 在storage中拿到 token
     const token = getToken()
@@ -37,7 +37,7 @@ axios.interceptors.request.use(
     }
     return config
   },
-  function(error) {
+  function (error) {
     // Do something with request error
     return Promise.reject(error)
   }
@@ -56,9 +56,9 @@ var requests = []
 */
 axios.interceptors.response.use(
   response => {
-    // console.log(response)
     const { code } = response.data
     if (code === 401) {
+      console.log(isRefreshing)
       const config = response.config
       if (!isRefreshing) {
         isRefreshing = true
