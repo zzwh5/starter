@@ -7,7 +7,7 @@
 
 <script>
 // 引入公共组件
-import Common from '@/components/common/index'
+import Common from '@/components/Common/index'
 
 export default {
   components: {

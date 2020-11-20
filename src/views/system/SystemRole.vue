@@ -1,8 +1,6 @@
-<!--  -->
+<!-- 系统角色管理 -->
 <template>
-  <div>
-    tttttt
-  </div>
+  <div class="SystemRole">系统角色管理</div>
 </template>
 
 <script>
@@ -14,4 +12,6 @@ export default {
 </script>
 
 <style  scoped lang='scss'>
+.SystemRole {
+}
 </style>

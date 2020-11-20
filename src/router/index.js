@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import layout from '../components/layout.vue'
+import layout from '../components/Layout.vue'
 
 Vue.use(VueRouter)
 
@@ -36,28 +36,38 @@ const routes = [
       {
         path: '/test/test1',
         name: 'Test1',
-        // redirect: '/test/test1/t',
         component: () => import('../views/test/test1.vue'),
-        // meta: { title: '测试1', hasChildren: true }
         meta: { title: '测试1', hasChildren: false }
-        // ,
-        // children: [
-        //   {
-        //     path: '/test/test1/t',
-        //     name: 'tt',
-        //     component: () => import('../views/test/t.vue'),
-        //     meta: { title: '测试t', hasChildren: false }
-        //   }
-        // ]
+      }
+    ]
+  },
+  {
+    path: '/system',
+    name: 'System',
+    component: layout,
+    redirect: '/system/SystemUser',
+    meta: { hasChildren: true, title: '系统设置' },
+    children: [
+      {
+        path: '/system/SystemUser',
+        name: 'SystemUser',
+        component: () => import('../views/system/SystemUser.vue'),
+        meta: { title: '系统用户管理', hasChildren: false }
+      },
+      {
+        path: '/system/SystemRole',
+        name: 'SystemRole',
+        component: () => import('../views/system/SystemRole.vue'),
+        meta: { title: '系统角色管理', hasChildren: false }
+      },
+      {
+        path: '/system/SystemLimit',
+        name: 'SystemLimit',
+        component: () => import('../views/system/SystemLimit.vue'),
+        meta: { title: '系统权限管理', hasChildren: false }
       }
     ]
   }
-  // {
-  //   path: '/tests',
-  //   name: 'Tests',
-  //   component: () => import('../views/tests/tests.vue'),
-  //   meta: { title: '测试s' }
-  // }
 ]
 
 const router = new VueRouter({

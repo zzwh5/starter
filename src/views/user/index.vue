@@ -88,9 +88,10 @@
 <script>
 // md5加密
 import md5 from 'js-md5'
+import { Base64 } from 'js-base64'
 // 登录接口
 import { login } from '@/request/api'
-import { setBothToken } from '@/util/TokenStorage'
+import { setBothToken } from '@/util/token-storage'
 export default {
   data() {
     return {
@@ -124,20 +125,22 @@ export default {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          // console.log('Received values of form: ', values)
           var obj = values
           obj.password = md5(obj.password)
           // console.log(obj)
           login(obj)
-            .then(res => {
+            .then((res) => {
               // console.log(res)
-              // cookie中添加token并设置过期时间
+              // 在storage中设置token
               setBothToken(res.data)
+              var time = res.data.token.split('.')[1]
+              console.log(Base64.decode(time))
               this.$router.push({
                 path: '/'
               })
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error)
             })
         }

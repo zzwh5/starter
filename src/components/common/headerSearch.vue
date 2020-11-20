@@ -6,7 +6,7 @@
     :form="form"
     @submit="handleSearch"
   >
-    <a-row :gutter="48">
+    <a-row :gutter="48" style="display: flex; align-items: center">
       <template v-for="(item, i) in columns">
         <a-col
           :key="item.field"
@@ -31,12 +31,38 @@
           </a-form-item>
         </a-col>
       </template>
+      <!-- 下拉框的列表循环 -->
+      <template v-for="(item, i) in Select">
+        <a-col :key="item.name" :span="8">
+          <a-form-item :label="item.name">
+            <a-select
+              v-decorator="[
+                item.field,
+                {
+                  rules: [{ required: item.isRequired }]
+                }
+              ]"
+              placeholder="请输入"
+              @mouseenter="selectFocus(i)"
+            >
+              <a-spin
+                v-if="item.isLoading && item.value.length <= 0"
+                slot="notFoundContent"
+                size="small"
+              />
+              <template v-for="v in item.value">
+                <a-select-option :key="v.values" :value="v.index">
+                  {{ v.values }}
+                </a-select-option>
+              </template>
+            </a-select>
+          </a-form-item>
+        </a-col>
+      </template>
     </a-row>
     <a-row>
       <a-col :span="24" :style="{ textAlign: 'right', paddingRight: '2rem' }">
-        <a-button type="primary" html-type="submit">
-          查询
-        </a-button>
+        <a-button type="primary" html-type="submit"> 查询 </a-button>
         <a-button :style="{ marginLeft: '8px' }" @click="handleReset">
           重置
         </a-button>
@@ -74,7 +100,9 @@ export default {
   data() {
     return {
       // 搜索的表格
-      form: this.$form.createForm(this, { name: 'advanced_search' })
+      form: this.$form.createForm(this, { name: 'advanced_search' }),
+      // 下拉框的数组
+      Select: []
     }
   },
   created() {
@@ -94,7 +122,7 @@ export default {
           arr = []
         } else {
           for (const key in obj) {
-            var condition = this.columns.filter(v => v.field == key)[0]
+            var condition = this.columns.filter((v) => v.field == key)[0]
               .searchCondition
             arr.push({
               condition,
@@ -115,6 +143,24 @@ export default {
     toggle() {
       // 调用父组件的方法
       this.$parent.toggle()
+    },
+    // 下拉框得到焦点
+    selectFocus(index) {
+      var that = this
+      // console.log(index)
+      setTimeout(() => {
+        that.Select[index].isLoading = false
+        that.Select[index].value = [
+          {
+            values: 'Lucy',
+            index: 0
+          },
+          {
+            values: 'Marry',
+            index: 1
+          }
+        ]
+      }, 2000)
     }
   }
 }

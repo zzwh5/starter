@@ -1,4 +1,4 @@
-import FormColumn from './FormColumn'
+import FormColumn from './form-column'
 
 export default class SearchFormColumn extends FormColumn {
   readOnly = true

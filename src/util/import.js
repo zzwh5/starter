@@ -13,7 +13,8 @@ import {
   Tabs,
   Form,
   Input,
-  Table
+  Table,
+  Select
 } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 Vue.use(Button)
@@ -29,3 +30,4 @@ Vue.use(Button)
   .use(Form)
   .use(Input)
   .use(Table)
+  .use(Select)

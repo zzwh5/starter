@@ -17,5 +17,8 @@ export const crud = {
   Detail: (uri, params) => get(`${uri}/crud`, params),
   Insert: (uri, params) => post(`${uri}/crud`, params),
   Update: (uri, params) => patch(`${uri}/crud`, params),
-  Delete: (uri, params) => deletefn(`${uri}/crud`, params)
+  Delete: (uri, params) => deletefn(`${uri}/crud`, params),
+  SelectOptions: (uri, params) => get(`${uri}/selectOptions`, params),
+  // 系统用户角色关系更改
+  RoleUser: (uri, params) => put(uri, params)
 }

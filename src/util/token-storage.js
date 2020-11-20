@@ -1,4 +1,4 @@
-import { get, set } from './Storage.js'
+import { get, set } from './storage.js'
 
 export function setBothToken(data) {
   setToken(data.token)

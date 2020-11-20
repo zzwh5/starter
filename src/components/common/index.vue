@@ -36,23 +36,22 @@
 </template>
 
 <script>
-import axios from 'axios'
-
+// import isshow from '@/util/directive.js'
 // 引入对应的类
-import FormColumn from '@/pojo/metadata/form/FormColumn.js'
-import SearchFormColumn from '@/pojo/metadata/form/SearchFormColumn.js'
-import DetailFormColumn from '@/pojo/metadata/form/DetailFormColumn.js'
+import FormColumn from '@/pojo/metadata/form/form-column.js'
+import SearchFormColumn from '@/pojo/metadata/form/search-form-column.js'
+import DetailFormColumn from '@/pojo/metadata/form/detail-form-column.js'
 // 查看表格数据详情的接口
 // 引入接口
 import { crud } from '@/request/api'
 // 公共表格组件
 import Table from './table'
 // 公共弹框组件
-import Dialog from './commonDialog'
+import Dialog from './CommonDialog'
 // 公共搜索头部组件
-import SearchHeader from './headerSearch'
+import SearchHeader from './HeaderSearch'
 // 公共操作头部组件
-import EditHeader from './headerEdit'
+import EditHeader from './HeaderEdit'
 // 引入表单的类
 export default {
   // 引入的组件
@@ -127,26 +126,13 @@ export default {
     }
   },
   created() {
-    axios({
-      method: 'get',
-      url: 'http://192.168.1.118:9020/admin/test',
-      headers: {
-        token: '1111'
-      }
-    })
-      .then(res => {
-        console.log(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
     this.getColumns()
     this.getTable()
   },
   methods: {
     // 获取参数列表
     getColumns() {
-      crud.Metadata(this.api).then(res => {
+      crud.Metadata(this.api).then((res) => {
         // 赋值原始的字段数组
         if (res.code != 200) {
           return
@@ -175,7 +161,7 @@ export default {
     // 判断数据中有没有某个子集
     hasChildren(arr, type) {
       arr = JSON.parse(JSON.stringify(arr))
-      var nowArr = arr.filter(v => v.type == type)
+      var nowArr = arr.filter((v) => v.type == type)
       return nowArr.length > 0
     },
     // 返回的数据里面有form数组的话
@@ -186,7 +172,7 @@ export default {
       var arrs = []
       if (!turn) {
         if (type == 'search') {
-          arr.forEach(v => {
+          arr.forEach((v) => {
             if (!v.hidden) {
               var obj = Object.assign(new SearchFormColumn(), v)
               arrs.push({
@@ -197,7 +183,7 @@ export default {
           return arrs
         }
         if (type == 'detail') {
-          arr.forEach(v => {
+          arr.forEach((v) => {
             if (!v.hidden) {
               var obj = Object.assign(new DetailFormColumn(), v)
               arrs.push({
@@ -207,7 +193,7 @@ export default {
           })
           return arrs
         }
-        arr.forEach(v => {
+        arr.forEach((v) => {
           if (!v.hidden) {
             var obj = Object.assign(new FormColumn(), v)
             arrs.push({
@@ -218,9 +204,9 @@ export default {
         // console.log(arrs)
         return arrs
       }
-      var nowArr = arr.filter(v => v.type == type)
+      var nowArr = arr.filter((v) => v.type == type)
       var columns = nowArr[0].columns
-      columns.forEach(v => {
+      columns.forEach((v) => {
         if (!v.hidden) {
           arrs.push({
             ...v
@@ -234,7 +220,7 @@ export default {
       var that = this
       arr = JSON.parse(JSON.stringify(arr))
       var arrs = []
-      arr.forEach(v => {
+      arr.forEach((v) => {
         if (v.primary) {
           that.primary = v.field
         }
@@ -293,7 +279,7 @@ export default {
       }
       // console.log(Pagination, sort, this.filter)
       // return
-      crud.Search(this.api, Pagination, sort, this.filter).then(res => {
+      crud.Search(this.api, Pagination, sort, this.filter).then((res) => {
         if (res.code != 200) {
           return false
         }
@@ -317,7 +303,7 @@ export default {
     // 点击表格调用的
     // 查看表格数据
     detailTable(params) {
-      crud.Detail(this.api, params).then(res => {
+      crud.Detail(this.api, params).then((res) => {
         this.$refs.child.setValue(res.data)
       })
     },
@@ -330,7 +316,7 @@ export default {
     delTable(params) {
       console.log(params)
       // return
-      crud.Delete(this.api, params).then(res => {
+      crud.Delete(this.api, params).then((res) => {
         // console.log(res)
         if (res.code != 200) {
           return false
@@ -351,7 +337,7 @@ export default {
     // 新增表格数据
     insertTable(obj) {
       console.log(obj)
-      crud.Insert(this.api, obj).then(res => {
+      crud.Insert(this.api, obj).then((res) => {
         // console.log(res)
         if (res.code != 200) {
           return false
@@ -365,7 +351,7 @@ export default {
     // 编辑表格数据
     editTable(obj) {
       console.log(obj)
-      crud.Update(this.api, obj).then(res => {
+      crud.Update(this.api, obj).then((res) => {
         if (res.code != 200) {
           return false
         }

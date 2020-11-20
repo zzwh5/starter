@@ -21,9 +21,7 @@
   >
     <!-- 自定义弹框footer -->
     <template slot="footer">
-      <a-button key="back" @click="handleCancel">
-        取消
-      </a-button>
+      <a-button key="back" @click="handleCancel"> 取消 </a-button>
       <a-button
         v-if="types != 'detail'"
         key="submit"
@@ -36,7 +34,7 @@
     </template>
     <!-- 右上角的关闭按钮 -->
     <div class="close" @click="handleCancel">
-      <a-icon type="close" style="font-size:1.6rem" />
+      <a-icon type="close" style="font-size: 1.6rem" />
     </div>
     <a-form
       layout="inline"
@@ -118,7 +116,7 @@ export default {
       // this.columns用来判断用不用渲染 比如 primary:true可能就不用渲染
       // console.log(obj)
       // console.log(this.columns)
-      this.columns.forEach(v => {
+      this.columns.forEach((v) => {
         if (!v.primary) {
           console.log({ [v.field]: obj[v.field] })
           that.submitForm.setFieldsValue({

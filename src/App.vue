@@ -4,12 +4,8 @@
   </div>
 </template>
 <script>
-// import SlideBar from '@/components/slideBar.vue'
-import { initStorageType } from './util/Storage.js'
+import { initStorageType } from './util/storage.js'
 export default {
-  // components: {
-  //   SlideBar
-  // },
   data() {
     return {
       collapsed: false

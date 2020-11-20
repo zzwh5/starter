@@ -55,26 +55,26 @@ const SubMenu = {
     // Cannot overlap with properties within Menu.SubMenu.props
     menuInfo: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     goRoute: {
-      type: Function,
-    },
-  },
+      type: Function
+    }
+  }
 }
 export default {
   components: {
-    SubMenu,
+    SubMenu
   },
   props: {
     collapsed: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data() {
     return {
       // 路由数组
-      Routes: [],
+      Routes: []
     }
   },
   created() {
@@ -93,11 +93,11 @@ export default {
       // console.log(path)
       if (this.$route.path != path) {
         this.$router.push({
-          path: path,
+          path: path
         })
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

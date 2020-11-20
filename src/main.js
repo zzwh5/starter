@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { getToken } from './util/TokenStorage'
+import { getToken } from './util/token-storage'
 
 // 重置库
 import './assets/style/reset.css'
@@ -10,6 +10,8 @@ import './assets/style/reset.css'
 // antd的组件库
 import './util/import'
 
+// 引入自定义指令
+import './util/directive'
 
 // 路由进度条
 // 导入
@@ -24,26 +26,26 @@ router.beforeEach((to, from, next) => {
   // 进度条开始
   NProgress.start()
   const hasToken = getToken()
-  if (hasToken) {
-    if (to.path === '/user') {
-      // if is logged in, redirect to the home page
-      next({ name: 'Home' })
-      NProgress.done()
-    } else {
-      next()
-    }
-  } else {
-    /* 没有token的话 */
-    if (whiteList.indexOf(to.path) !== -1) {
-      // 如果是前往登录页面的话 直接放行
-      next()
-    } else {
-      // 如果不是前往登录页面的话 直接跳转到登录页面
-      // next(`/user?redirect=${to.path}`)
-      next(`/user`)
-      NProgress.done()
-    }
-  }
+  // if (hasToken) {
+  //   if (to.path === '/user') {
+  //     // if is logged in, redirect to the home page
+  //     next({ name: 'Home' })
+  //     NProgress.done()
+  //   } else {
+  //     next()
+  //   }
+  // } else {
+  //   /* 没有token的话 */
+  //   if (whiteList.indexOf(to.path) !== -1) {
+  //     // 如果是前往登录页面的话 直接放行
+  //     next()
+  //   } else {
+  //     // 如果不是前往登录页面的话 直接跳转到登录页面
+  //     // next(`/user?redirect=${to.path}`)
+  //     next(`/user`)
+  //     NProgress.done()
+  //   }
+  // }
   next()
 })
 

@@ -13,6 +13,11 @@
         onChange: onSelectChange,
         columnWidth: '2%'
       }"
+      :rowKey="
+        (record, index) => {
+          return index
+        }
+      "
       @change="onChange"
     >
       <template slot="action" slot-scope="record">

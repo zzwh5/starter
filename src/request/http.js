@@ -1,9 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
 // 引入storage的一些方法
-import { setBothToken, getToken } from '@/util/TokenStorage'
+import { setBothToken, getToken, getRefreshToken } from '@/util/token-storage'
+import { remove } from '@/util/storage'
 // 引入 antd的对话框
-import { message } from 'ant-design-vue'
+// import { message } from 'ant-design-vue'
 
 // 刷新token的接口
 import { refrechToken } from '@/request/api'
@@ -24,20 +25,21 @@ instance.setToken = data => {
 
 // http request拦截器 添加一个请求拦截器
 axios.interceptors.request.use(
-  function (config) {
+  function(config) {
     // console.log(config)
     // 在storage中拿到 token
     const token = getToken()
+    const refresh_token = getRefreshToken()
     if (token) {
       // 将token放到请求头发送给服务器,将tokenkey放在请求头中
       config.headers['token'] = token
     }
     if (config.url.indexOf('auth') != -1) {
-      config.headers['token'] = token
+      config.headers['token'] = refresh_token
     }
     return config
   },
-  function (error) {
+  function(error) {
     // Do something with request error
     return Promise.reject(error)
   }
@@ -56,17 +58,26 @@ var requests = []
 */
 axios.interceptors.response.use(
   response => {
+    // console.log(response)
+    var { url } = response.config
     const { code } = response.data
-    if (code === 401) {
-      console.log(isRefreshing)
+    // console.log(url.indexOf('/admin/rest/1.0/auth/token' == -1))
+    if (code === 401 && url.indexOf('/admin/rest/1.0/auth/token') == -1) {
+      // console.log(isRefreshing)
       const config = response.config
       if (!isRefreshing) {
         isRefreshing = true
         // console.log(isRefreshing)
-        return refrechToken()
+        refrechToken()
           .then(res => {
             console.log(res)
-            // const { token } = res.data
+            if (res.code == 401) {
+              // router.push('/user')
+              remove('token')
+              location.reload()
+              return false
+            }
+            const { token } = res.data
             instance.setToken(res.data)
             config.headers['token'] = token
             config.baseURL = ''

@@ -1,5 +1,5 @@
 <template>
-  <a-layout id="components-layout-demo-responsive" style="height:100vh">
+  <a-layout id="components-layout-demo-responsive" style="height: 100vh">
     <a-layout-sider
       v-model="collapsed"
       width="15vw"
@@ -36,13 +36,15 @@
           minHeight: '280px'
         }"
       >
-        <router-view />
+        <transition name="slide-fade">
+          <router-view />
+        </transition>
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 <script>
-import SlideBar from '@/components/slideBar.vue'
+import SlideBar from '@/components/SlideBar.vue'
 export default {
   components: {
     SlideBar
@@ -63,7 +65,26 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.slide-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.slide-fade-enter-active {
+  transition: all 1.2s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.1s cubic-bezier(2, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  left: 0;
+  right: 0;
+  transform: translateX(50px);
+  opacity: 0;
+}
+
 #components-layout-demo-responsive .trigger {
   font-size: 18px;
   line-height: 64px;
